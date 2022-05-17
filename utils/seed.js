@@ -6,21 +6,21 @@ connection.on("error", (err) => err);
 connection.once("open", async () => {
   console.log("connected");
 
-  // Drop existing courses
+  // Drop existing thoughts
   await Thoughts.deleteMany({});
 
-  // Drop existing students
+  // Drop existing user
   await User.deleteMany({});
 
-  // Create empty array to hold the students
+  // Create empty array to hold the user
   const user = [];
 
-  // Add students to the collection and await the results
+  // Add user to the collection and await the results
   await Users.collection.insertOne({
     username: "lernantino",
     email: "lernantino@gmail.com",
   });
-  // Add courses to the collection and await the results
+  // Add thoughts to the collection and await the results
   await Thoughts.collection.insertOne({
     thoughtText: "Here's a cool thought...",
     username: "lernantino",
@@ -29,6 +29,6 @@ connection.once("open", async () => {
 
   // Log out the seed data to indicate what should appear in the database
   console.table(user);
-  console.info("Seeding complete! 🌱");
+  console.info("Seeding complete!");
   process.exit(0);
 });
