@@ -33,11 +33,3 @@ router.route('/:thoughtsId/reaction/:reactionId').delete(deleteReaction);
 
 module.exports = router;
 
-// ```json
-// // example data
-// {
-//   "thoughtText": "Here's a cool thought...",
-//   "username": "lernantino",
-//   "userId": "5edff358a0fcb779aa7b118b"
-// }
-// ```

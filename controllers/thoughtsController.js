@@ -11,6 +11,7 @@ module.exports = {
   getSingleThoughts(req, res) {
     Thoughts.findOne({ _id: req.params.id })
       .select('-__v')
+      .populate('user')
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with that ID' })
@@ -23,7 +24,7 @@ module.exports = {
   // Create a thought
   createThoughts(req, res) {
     Thoughts.create(req.body)
-      .then((thoughts) => res.json(thought))
+      .then((thoughts) => res.json(thoughts))
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);

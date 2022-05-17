@@ -43,6 +43,7 @@ module.exports = {
   getSingleStudent(req, res) {
     Student.findOne({ _id: req.params.studentId })
       .select('-__v')
+      .populate('thoughts')
       .then(async (student) =>
         !student
           ? res.status(404).json({ message: 'No student with that ID' })
