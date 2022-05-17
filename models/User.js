@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Thoughts } = require('../models/thoughts');
 const { Schema, Types } = require("mongoose");
 
 // Child documents or subdocuments can be embedded into a parent document
@@ -51,4 +52,4 @@ userSchema.virtual("friendCount").get(function () {
 // Uses mongoose.model() to create model
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = userSchema;
