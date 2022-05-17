@@ -1,46 +1,43 @@
-const { Schema, model } = require('mongoose');
+const { Schema, Types } = require("mongoose");
 
-// Schema to create a course model
-const courseSchema = new Schema(
+const thoughtsSchema = new Schema(
   {
     thoughtText: {
       type: String,
       required: true,
-      min_length: 1,
-      max_length: 280,
+      maxlength: 280,
+      minlength: 1,
     },
-    inPerson: {
-      type: Boolean,
-      default: true,
-    },
-    startDate: {
+    createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
-    endDate: {
-      type: Date,
-      // Sets a default value of 12 weeks from now
-      default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
+    username: {
+      type: Schema.Types.username,
+      ref: "User",
     },
-    students: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Student',
-      },
-    ],
+    reaction: reactionSchema,
   },
   {
     toJSON: {
-      virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
-// Create a virtual property `commentCount` that gets the amount of comments per post
-postSchema.virtual('commentCount').get(function () {
+const reactionSchema = new mongoose.Schema({
+  reactionID: {
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
+    ref: "reactionCount",
+  },
+  reactionBody: { type: String, required: true, maxlength: 280 },
+  username: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
+userSchema.virtual("reactionCount").get(function () {
   return this.comments.length;
 });
 
-const Course = model('course', courseSchema);
-
-module.exports = Course;
+module.exports = thoughtsSchema;

@@ -1,34 +1,46 @@
-const { Schema, model } = require('mongoose');
-const friendsSchema = require('./Friends');
+const mongoose = require('mongoose');
 
-// Schema to create Student model
-const userSchema = new Schema(
-  {
-    username: {
-      type: String,
-      unique: true,
-      required: true,
-      max_length: 50,
+// Child documents or subdocuments can be embedded into a parent document
+// the managerSchema defines the shape for manager subdocument
+const validateEmail = function(email) {
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email)
+};
+const userSchema = new mongoose.Schema({
+  username: { type: String, unique: true, required: true, trim :true },
+  email:{
+    type: String, 
+    unique: true, 
+    required: true,
+    validate: [validateEmail, 'Please fill a valid email address'],
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']},
+  thoughts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Thoughts',
     },
-    email: {
-      type: String,
-      required: true,
-      max_length: 50,
-    },
-    thoughts: {
-      type: String,
-      required: true,
-      max_length: 50,
-    },
-    friends: [friendsSchema],
-  },
-  {
+  ],
+  friendsSchema:friendsSchema,
+},
+{
     toJSON: {
-      getters: true,
+      virtuals: true,
     },
-  }
-);
+    id: false,
+}
+  );
 
-const User = model('user', userSchema);
+// The friendsScheme defines the shape for the friends subdocument
+const friendsSchema = new mongoose.Schema({
+ name: { type: String, required: true, maxlength: 20, ref: 'friendCount' },
+  });
+
+// Create a virtual property `friendCount` that gets the amount of friends
+userSchema.virtual('friendCount').get(function () {
+    return this.comments.length;
+  });
+
+// Uses mongoose.model() to create model
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
