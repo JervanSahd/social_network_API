@@ -1,5 +1,5 @@
 // const mongoose = require("mongoose");
-// const { User } = require('../models/user');
+const { User } = require('../models/User');
 const { Schema, model } = require("mongoose");
 const reactionSchema = new Schema({
   reactionID: {
@@ -25,7 +25,7 @@ const thoughtsSchema = new Schema(
       default: Date.now,
     },
     username: {
-      type: Schema.Types.username,
+      type: String,
       ref: "User",
     },
     reaction: reactionSchema,
@@ -37,10 +37,11 @@ const thoughtsSchema = new Schema(
     id: false,
   }
 );
+const Thoughts = model("Thoughts", thoughtsSchema);
 
 thoughtsSchema.virtual("reactionCount").get(function () {
   return this.comments.length;
 });
-const Thoughts = model("Thoughts", thoughtsSchema);
+
 
 module.exports = Thoughts;

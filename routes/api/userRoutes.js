@@ -1,4 +1,6 @@
-const router = require('express').Router();
+
+
+const router = require("express").Router();
 const {
   // `GET` all users
   getUser,
@@ -18,27 +20,18 @@ const {
 
   // `DELETE` to remove a friend from a user's friend list
   removeFriend,
-
-} = require('../../controllers/userController');
+} = require("../../controllers/userController");
 
 // /api/user
-router.route('/').get(getUser).post(createUser);
+router.route("/").get(getUser).post(createUser);
 
 // /api/user/:userId
-router.route('/:userId').get(getSingleUser).delete(deleteUser);
+router.route("/:userId").get(getSingleUser).delete(deleteUser);
 
 // /api/user/:usertId/friends
-router.route('/:userId/friends').post(addFriend);
+router.route("/:userId/friends").post(addFriend);
 
 // /api/user/:userId/friends/:friendsId
-router.route('/:userId/friends/:friendsId').delete(removeFriend);
+router.route("/:userId/friends/:friendsId").delete(removeFriend);
 
 module.exports = router;
-
-// ```json
-// // example data
-// {
-//   "username": "lernantino",
-//   "email": "lernantino@gmail.com"
-// }
-// ```
