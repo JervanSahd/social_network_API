@@ -20,13 +20,15 @@ const {
 
   // `DELETE` to remove a friend from a user's friend list
   removeFriend,
+ 
+
 } = require("../../controllers/userController");
 
 // /api/user
 router.route("/").get(getUser).post(createUser);
 
 // /api/user/:userId
-router.route("/:userId").get(getSingleUser).delete(deleteUser);
+router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
 // /api/user/:usertId/friends
 router.route("/:userId/friends").post(addFriend);

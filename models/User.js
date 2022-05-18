@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
 const { Thoughts } = require("../models/Thoughts");
-const { Schema, Types } = require("mongoose");
+// const { Schema, Types } = require("mongoose");
+const Schema = mongoose.Schema;
 
 // Child documents or subdocuments can be embedded into a parent document
 // the managerSchema defines the shape for manager subdocument
-const validateEmail = function (email) {
-  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return re.test(email);
-};
+
 const friendsSchema = new Schema({
   name: { type: String, required: true, maxlength: 20, ref: "friendCount" },
 });
@@ -19,11 +17,8 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       required: true,
-      validate: [validateEmail, "Please fill a valid email address"],
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please fill a valid email address",
-      ],
+      match:  [/.+@.+\..+/, "Please enter a valid e-mail address"],
+     
     },
     thoughts: [
       {

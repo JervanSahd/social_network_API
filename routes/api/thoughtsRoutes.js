@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require("express").Router();
 const {
   // - `GET` to get all thoughts
   getThoughts,
@@ -17,19 +17,29 @@ const {
 
   // `DELETE` to pull and remove a reaction by the reaction's `reactionId` value
   deleteReaction,
-} = require('../../controllers/thoughtsController.js');
+} = require("../../controllers/thoughtsController.js");
 
 // /api/thoughts
-router.route('/').get(getThoughts).post(createThoughts);
+router
+  .route("/")
+  .get(getThoughts)
+  .post(createThoughts);
 
 // /api/courses/:thoughtsId
-router.route('/:thoughtsId').get(getSingleThoughts).put(updateThoughts).delete(deleteThoughts);
+router
+  .route("/:thoughtsId")
+  .get(getSingleThoughts)
+  .put(updateThoughts)
+  .delete(deleteThoughts);
 
-// /api/user/:usertId/friends
-router.route('/:thoughtsId/reaction').post(createReaction);
+// /api/user/:thoughtsId/reaction
+router
+  .route("/:thoughtsId/reaction")
+  .post(createReaction);
 
-// /api/user/:userId/friends/:friendsId
-router.route('/:thoughtsId/reaction/:reactionId').delete(deleteReaction);
+// /api/user/:thoughtsId/reaction/:reactionId
+router
+  .route("/:thoughtsId/reaction/:reactionId")
+  .delete(deleteReaction);
 
 module.exports = router;
-
