@@ -1,31 +1,39 @@
-const { ObjectId } = require('mongoose').Types;
+// const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
-module.exports = {
+const userController = {
   
   // Get all users
-  getUser(req, res) {
-    User.find()
-      .then((user) => res.json(user))
-      .catch((err) => res.status(500).json(err));
-  },
+  getUsers(req, res) {
+    ser.find({})
+            .populate({ path: "thoughts", select: "-__v" })
+            .populate({ path: "friends", select: "-__v -thoughts" })
+            .select("-__v")
+            .then(dbUserData => res.json(dbUserData))
+            .catch(err => {
+                console.log(err);
+                return res.status(400).json(err);
+            });
+    },
+  
   // Get a single user
-  getSingleUser(req, res) {
-    User.findOne({ _id: req.params.id })
-      .select('__v')
-      .then(async (user) =>
-        !user
-          ? res.status(404).json({ message: 'No user with that ID' })
-          : res.json({
-              user,
-              grade: await grade(req.params.id),
+  getSingleUser({ params }, res) {
+    User.findOne({ _id: params.id })
+            .populate({ path: "thoughts", select: "-__v" })
+            .populate({ path: "friends", select: "-__v" })
+            .select("-__v")
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: "No user found with this ID!" });
+                    return;
+                }
+                return res.json(dbUserData);
             })
-      )
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
-      });
-  },
+            .catch(err => {
+                console.log(err);
+                return res.status(400).json(err);
+            });
+    },
 
   // create a new user
   createUser(req, res) {
@@ -102,23 +110,4 @@ module.exports = {
   },
 };
 
-// // `GET` all users
-// getUser,
-// // `GET` a single user by its `_id` and populated thought and friend data
-// getSingleUser,
-// // `POST` a new user:
-// createUser,
-// // `PUT` to update a user by its `_id`
-// updateUser,
-
-// // `DELETE` to remove user by its `_id`
-// deleteUser,
-
-// // **`/api/users/:id/friends/:friendId`**
-// // - `POST` to add a new friend to a user's friend list
-// addFriend,
-
-// // `DELETE` to remove a friend from a user's friend list
-// removeFriend,
-
-
+module.exports = userController;

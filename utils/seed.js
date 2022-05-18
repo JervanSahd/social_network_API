@@ -16,7 +16,7 @@ connection.once("open", async () => {
   const user = [];
 
   // Add user to the collection and await the results
-  await Users.collection.insertOne({
+  await User.collection.insertOne({
     username: "lernantino",
     email: "lernantino@gmail.com",
   });
