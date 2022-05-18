@@ -1,4 +1,5 @@
-const { Thoughts, User } = require('../models');
+const { ObjectId } = require("mongoose").Types;
+const { Thoughts, User } = require("../models");
 
 module.exports = {
   // Get all thoughts
@@ -10,17 +11,17 @@ module.exports = {
   // Get a thought
   getSingleThoughts(req, res) {
     Thoughts.findOne({ _id: req.params.id })
-      .select('-__v')
-      .populate('user')
+      .select("-__v")
+      .populate("user")
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: 'No thought with that ID' })
+          ? res.status(404).json({ message: "No thought with that ID" })
           : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
-  
-      // },`POST` to create a new thought (don't forget to push the created thought's `_id` to the associated user's `thoughts` array field)
+
+  // },`POST` to create a new thought (don't forget to push the created thought's `_id` to the associated user's `thoughts` array field)
   // Create a thought
   createThoughts(req, res) {
     Thoughts.create(req.body)
@@ -35,10 +36,10 @@ module.exports = {
     Thoughts.findOneAndDelete({ _id: req.params.thoughtsId })
       .then((thoughts) =>
         !thoughts
-          ? res.status(404).json({ message: 'No thoughts with that ID' })
+          ? res.status(404).json({ message: "No thoughts with that ID" })
           : User.deleteMany({ _id: { $in: thoughts.user } })
       )
-      .then(() => res.json({ message: 'Thoughts and user deleted!' }))
+      .then(() => res.json({ message: "Thoughts and user deleted!" }))
       .catch((err) => res.status(500).json(err));
   },
   // Update a thought
@@ -50,7 +51,7 @@ module.exports = {
     )
       .then((thoughts) =>
         !thoughts
-          ? res.status(404).json({ message: 'No thoughts with this id!' })
+          ? res.status(404).json({ message: "No thoughts with this id!" })
           : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
@@ -70,11 +71,10 @@ module.exports = {
     Thoughts.findOneAndDelete({ _id: req.params.reactionID })
       .then((thoughts) =>
         !thoughts
-          ? res.status(404).json({ message: 'No thoughts with that ID' })
+          ? res.status(404).json({ message: "No thoughts with that ID" })
           : User.deleteMany({ _id: { $in: thoughts.user } })
       )
-      .then(() => res.json({ message: 'Thoughts and user deleted!' }))
+      .then(() => res.json({ message: "Thoughts and user deleted!" }))
       .catch((err) => res.status(500).json(err));
   },
 };
-
