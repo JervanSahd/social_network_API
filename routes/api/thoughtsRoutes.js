@@ -11,12 +11,7 @@ const {
   // `DELETE` to remove a thought by its `_id`
   deleteThoughts,
 
-  // // **`/api/thoughts/:thoughtId/reactions`**
-  // // `POST` to create a reaction stored in a single thought's `reactions` array field
-  // createReaction,
-
-  // // `DELETE` to pull and remove a reaction by the reaction's `reactionId` value
-  // deleteReaction,
+ 
 } = require("../../controllers/thoughtsController.js");
 
 // /api/thoughts
@@ -26,14 +21,6 @@ router.route("/").get(getThoughts).post(createThoughts);
 router
   .route("/:id").get(getSingleThoughts).put(updateThoughts).delete(deleteThoughts);
 
-// // /api/user/:thoughtsId/reaction
-// router
-//   .route("/:thoughtsId/reaction")
-//   .post(createReaction);
 
-// // /api/user/:thoughtsId/reaction/:reactionId
-// router
-//   .route("/:thoughtsId/reaction/:reactionId")
-//   .delete(deleteReaction);
 
 module.exports = router;

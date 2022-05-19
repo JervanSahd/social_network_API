@@ -238,6 +238,8 @@ Used as the `reaction` field's subdocument schema in the `Thought` model.
 
 - A walkthrough video demonstrating the functionality of the application and all of the acceptance criteria being met.
 
+## https://drive.google.com/file/d/1X7djh2txDtOLsJGeIewXfG6wIxGzqceP/view
+
 - The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
 
 ## https://github.com/JervanSahd/social_network_API
